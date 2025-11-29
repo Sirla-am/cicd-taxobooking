@@ -85,21 +85,12 @@ environment {
                 }
             }
         }
-        stage('Kubernetes Deployment of taxiapp Web Application') {
+        stage(" Deploy ") {
             steps {
-                withAWS(credentials: 'aws-credentials', region: 'us-east-1') {
-
-      // Generate fresh kubeconfig that contains a valid IAM token
-            sh '''
-              aws eks update-kubeconfig \
-                --name sairam \
-                --region us-east-1
-            '''
-
-            sh 'chmod +x ./deploy.sh'
-            sh './deploy.sh'
+                script {
+                    sh './deploy.sh'
+                }
             }
         }
     }
-}
 }
