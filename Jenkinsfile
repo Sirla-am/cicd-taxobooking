@@ -62,35 +62,36 @@ environment {
                      buildInfo.env.collect()
                      server.publishBuildInfo(buildInfo)
                      echo '<--------------- Jar Publish Ended --------------->'  
-             }
-        }   
-    }
-    stage(" Docker Build ") {
-      steps {
-        script {
-           echo '<--------------- Docker Build Started --------------->'
-           app = docker.build(imageName+":"+version)
-           echo '<--------------- Docker Build Ends --------------->'
+                }
+            }   
         }
-      }
-    }
-     stage (" Docker Publish "){
+        stage(" Docker Build ") {
         steps {
             script {
-               echo '<--------------- Docker Publish Started --------------->'  
-                docker.withRegistry(registry, 'jfrog-cred'){
-                    app.push()
-                }    
-               echo '<--------------- Docker Publish Ended --------------->'  
+            echo '<--------------- Docker Build Started --------------->'
+            app = docker.build(imageName+":"+version)
+            echo '<--------------- Docker Build Ends --------------->'
             }
         }
-    }
-    stage(" Deploy ") {
-       steps {
-         script {
-            sh './deploy.sh'
-         }
-       }
+        }
+        stage (" Docker Publish "){
+            steps {
+                script {
+                echo '<--------------- Docker Publish Started --------------->'  
+                    docker.withRegistry(registry, 'jfrog-cred'){
+                        app.push()
+                    }    
+                echo '<--------------- Docker Publish Ended --------------->'  
+                }
+            }
+        }
+        stage(" Deploy ") {
+        steps {
+            script {
+            sh 'chmod +x ./deploy.sh'
+                sh './deploy.sh'
+            }
+        }
      }
 }
 }
