@@ -1,4 +1,4 @@
-def registry = 'https://taxi06.jfrog.io/artifactory'
+def registry = 'https://taxi005.jfrog.io/artifactory'
 def imageName = 'taxi06.jfrog.io/taxi01-docker-local/taxiapp'
 def version   = '1.0.1'
 pipeline {
